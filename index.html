@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Chamada Cebrac</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#030305">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cebrac">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="splashScreen">
+      <div class="logo-pulse"><i class="fa-solid fa-fingerprint" style="font-size: 40px; color: var(--accent-blue);"></i></div>
+      <h1>Feito por Matheus Barreto</h1>
+      <div class="loader-bar"></div>
+  </div>
+
+  <div id="alertaNativo" class="alerta-escondido">
+      <i class="fa-solid fa-bell"></i>
+      <span id="textoAlertaNativo">Mensagem do Sistema</span>
+  </div>
+
+  <main class="container-app" id="telaRegistro" style="display: none;">
+    <div class="painel animate__animated animate__fadeInUp">
+        <div class="header-icone">
+            <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2>Registro Cebrac</h2>
+        <p class="subtitulo">Digite seu nome e sua turma para acessar o sistema.</p>
+        
+        <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="inputNome" placeholder="Nome Completo">
+        </div>
+        
+        <div class="input-group">
+            <i class="fa-solid fa-users"></i>
+            <input type="text" id="inputTurma" placeholder="Sua Turma (ex: ANC)">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-venus-mars"></i>
+            <select id="inputSexo">
+                <option value="" disabled selected>Selecione seu Sexo</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Prefiro não informar">Prefiro não informar</option>
+            </select>
+        </div>
+        
+        <button id="btnValidarRegistro" onclick="registrarAluno()" class="btn-principal">
+            Acessar o sistema <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+  </main>
+
+  <main id="telaPrincipal" style="display: none;" class="container-app">
+    <div class="viewport-scroll">
+        
+        <div class="animate__animated animate__fadeIn">
+            <div class="app-topbar">
+                <div class="saudacao">
+                    <span id="boasVindas">Olá, Operador</span>
+                    <small id="dashStatus">Sincronizando...</small>
+                </div>
+                <div class="icone-dev" id="iconeAdmin" onclick="cliqueDev()" style="display: none;">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </div>
+            </div>
+
+            <div id="painelHacker" style="display:none;" class="dev-panel animate__animated animate__flipInX">
+                <div class="dev-badge">ROOT ACCESS</div>
+                <div class="input-group" style="margin-bottom: 10px;">
+                    <input type="text" id="devVersao" placeholder="Versão (ex: v1.5)">
+                </div>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <input type="text" id="devNotas" placeholder="O que mudou no app?">
+                </div>
+                <button onclick="dispararAtualizacaoDev()" class="btn-dev">Lançar Patch</button>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="card-mini">
+                    <i class="fa-solid fa-star"></i>
+                    <h3 id="dashPontos">0 Pontos</h3>
+                    <span>Pontuação</span>
+                </div>
+                <div class="card-mini">
+                    <i class="fa-solid fa-clock"></i>
+                    <h3 id="dashFrequencia">0%</h3>
+                    <span>Frequência</span>
+                </div>
+            </div>
+
+            <div class="painel card-ranking animate__animated animate__zoomIn">
+                <h3 style="color: var(--accent-blue);"><i class="fa-solid fa-trophy"></i> Status na Turma</h3>
+                <p id="textoRanking">Aguardando dados...</p>
+                <div class="progress-bar-container" style="margin-bottom: 15px;">
+                    <div id="barraProgresso" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                
+                <button onclick="abrirRanking()" class="btn-secundario" style="border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 700;">
+                    <i class="fa-solid fa-ranking-star"></i> Ver Ranking da Turma
+                </button>
+            </div>
+
+            <div class="painel animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                <h3 style="color: var(--accent-blue);"><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Presença</h3>
+                <div id="listaHistorico" class="historico-lista">
+                    </div>
+            </div>
+
+            <div class="painel animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                <h3 style="text-align: center; color: var(--accent-blue); font-size: 14px; margin-bottom: 20px; line-height: 1.4;">Selecione como você está se sentindo e<br>marque presença na aula</h3>
+                <div class="input-group">
+                    <select id="humorAluno">
+                        <option value="😃 Animado">😃 Estou Animado</option>
+                        <option value="😴 Cansado">😴 Estou Cansado</option>
+                        <option value="🤯 Focado">🤯 Estou Focado</option>
+                    </select>
+                </div>
+                
+                <button id="btnValidar" onclick="tentarPresenca()" class="btn-principal">
+                    Marcar presença <i class="fa-solid fa-location-dot"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+  </main>
+
+  <div id="modalRanking" class="modal-nativo" style="display: none;">
+      <div class="modal-conteudo animate__animated animate__zoomIn" style="padding: 24px 15px;">
+          <h2 style="color: gold; margin-bottom: 5px;"><i class="fa-solid fa-crown"></i> Top Dos Mais Mais</h2>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Os mais pontuais da turma <span id="rankingTurmaNome" style="color: var(--text-main); font-weight: bold;"></span></p>
+          
+          <div id="listaRanking" class="historico-lista" style="max-height: 350px; overflow-y: auto; text-align: left; padding-right: 5px;">
+              </div>
+          
+          <button onclick="fecharRanking()" class="btn-principal" style="margin-top: 20px; background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: none;">
+              Fechar
+          </button>
+      </div>
+  </div>
+
+  <div id="modalPatchNotes" class="modal-nativo" style="display:none;">
+      <div class="modal-conteudo animate__animated animate__zoomIn" style="text-align: center;">
+         <h2 style="color: var(--accent-blue); margin-bottom: 10px;"><i class="fa-solid fa-download"></i> Atualização</h2>
+         <p id="versaoTexto" style="color: gold; font-weight: bold; margin-bottom: 15px;"></p>
+         <div id="notasTexto" class="patch-box" style="text-align: center; margin-bottom: 20px;"></div>
+         <button onclick="fecharPatchNotes()" class="btn-principal" style="background: #113d26; color: #3fb950; box-shadow: none;">
+             <i class="fa-solid fa-check"></i> Entendi
+         </button>
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
