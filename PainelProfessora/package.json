@@ -1,0 +1,36 @@
+{
+  "name": "painel-cebrac",
+  "version": "1.0.0",
+  "description": "Painel de Gestão Cebrac",
+  "main": "main.js",
+  "author": "Feito por Matheus.sh",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.matheus.cebrac",
+    "productName": "Painel Cebrac (Feito por Matheus.sh)",
+    "copyright": "Feito por Matheus.sh",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "logo.ico",
+      "uninstallerIcon": "logo.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Painel Cebrac"
+    }
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da Professora</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+        /* Paleta Elegante: Midnight Plum & Rose Gold */
+        --bg-main: #141115; /* Um tom ameixa/grafite super escuro e quente */
+        --bg-card: rgba(45, 30, 47, 0.45); /* Vidro fosco levemente rosado */
+        --border-light: rgba(224, 169, 109, 0.15); /* Borda com reflexo ouro rosa */
+        --text-primary: #FDFBF7; /* Branco pérola */
+        --text-secondary: #D4B8C0; /* Malva/Rosa acinzentado suave */
+        
+        /* Cores de Ação Pastéis Premium */
+        --brand-lilac: #C8A2C8;    /* Substitui o Azul (Sortear) */
+        --brand-rose: #E0A96D;     /* Ouro Rosa - Substitui o Amarelo (Lobby) */
+        --brand-mint: #86C1B9;     /* Menta Suave - Substitui o Verde (Ok/Planilha) */
+        --brand-blush: #E5989B;    /* Blush/Pêssego - Substitui o Vermelho vivo (Encerrar/Atraso) */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Urbanist', sans-serif; }
+    
+    body { 
+        background-color: var(--bg-main); 
+        color: var(--text-primary); 
+        padding: 30px 40px;
+        /* Gradientes radiais suaves para dar profundidade ao fundo */
+        background-image: radial-gradient(circle at top left, rgba(200, 162, 200, 0.05), transparent 50%),
+                          radial-gradient(circle at bottom right, rgba(224, 169, 109, 0.05), transparent 50%);
+        background-attachment: fixed;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(224, 169, 109, 0.2); border-radius: 10px; }
+
+    /* HEADER DE LUXO */
+    header { 
+        display: flex; justify-content: space-between; align-items: center; 
+        margin-bottom: 35px; padding: 25px 35px;
+        background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 24px; border: 1px solid var(--border-light);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    header .boas-vindas { display: flex; flex-direction: column; gap: 4px; }
+    header h1 { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; letter-spacing: 0.5px;}
+    header h1 i { color: var(--brand-rose); font-size: 20px; }
+    header p { font-size: 14px; color: var(--text-secondary); font-weight: 400; letter-spacing: 0.3px; }
+    
+    .botoes-acao { display: flex; gap: 15px; }
+    
+    .btn-acao { 
+        background: transparent; 
+        border: 1px solid var(--border-light); 
+        color: var(--text-primary); 
+        padding: 12px 22px; 
+        border-radius: 16px; 
+        cursor: pointer; 
+        font-weight: 600; 
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        display: flex; align-items: center; gap: 8px; 
+    }
+    .btn-acao i { font-size: 14px; }
+    
+    .btn-acao:hover { background: rgba(255,255,255,0.03); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    
+    .btn-abrir { border-color: rgba(224, 169, 109, 0.5); color: var(--brand-rose); }
+    .btn-sortear { border-color: rgba(200, 162, 200, 0.5); color: var(--brand-lilac); }
+    .btn-limpar { border-color: rgba(229, 152, 155, 0.3); color: var(--brand-blush); padding: 12px 18px;}
+    .btn-encerrar { background: rgba(229, 152, 155, 0.08); border-color: rgba(229, 152, 155, 0.4); color: var(--brand-blush); }
+    .btn-encerrar:hover { background: var(--brand-blush); color: #141115; }
+
+    /* BENTO BOX KPIs (Mais arredondados e suaves) */
+    .linha-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
+    .card-kpi { 
+        background: var(--bg-card); backdrop-filter: blur(20px);
+        border-radius: 24px; padding: 26px; border: 1px solid var(--border-light); 
+        display: flex; flex-direction: column; justify-content: center;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .card-kpi:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
+    
+    .card-kpi .topo-kpi { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .card-kpi h4 { color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+    .card-kpi .icone-kpi { font-size: 20px; opacity: 0.9; }
+    
+    .card-kpi .valor { font-size: 34px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.5px;}
+    .card-kpi .subtexto { font-size: 13px; color: var(--text-secondary); font-weight: 500;}
+
+    /* GRÁFICOS */
+    .layout-central { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+    .painel { 
+        background: var(--bg-card); backdrop-filter: blur(20px); 
+        border-radius: 24px; padding: 28px; border: 1px solid var(--border-light); 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .painel h3 { font-size: 15px; color: var(--text-primary); margin-bottom: 20px; font-weight: 700; letter-spacing: 0.5px;}
+    .grafico-container { position: relative; height: 260px; width: 100%; }
+
+    /* TABELA DE ALUNOS COM EXCEL INTEGRADO */
+    .tabela-container { 
+        background: var(--bg-card); backdrop-filter: blur(20px); 
+        border-radius: 24px; padding: 28px; border: 1px solid var(--border-light); overflow-x: auto; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .tabela-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .tabela-header h3 { font-size: 16px; color: var(--text-primary); font-weight: 700; }
+    
+    .btn-excel {
+        background: rgba(134, 193, 185, 0.1); border: 1px solid rgba(134, 193, 185, 0.4);
+        color: var(--brand-mint); padding: 10px 18px; border-radius: 12px;
+        font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;
+        transition: all 0.3s;
+    }
+    .btn-excel:hover { background: var(--brand-mint); color: #141115; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(134, 193, 185, 0.2);}
+
+    table { width: 100%; border-collapse: separate; border-spacing: 0 8px; text-align: left; }
+    th { padding: 12px 15px; color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-bottom: 1px solid rgba(224, 169, 109, 0.1); }
+    td { padding: 16px 15px; background: rgba(255,255,255,0.02); font-size: 14px; color: var(--text-primary); font-weight: 500; transition: background 0.3s; }
+    tr:hover td { background: rgba(255,255,255,0.05); }
+    td:first-child { border-radius: 14px 0 0 14px; color: #fff; font-weight: 600; }
+    td:last-child { border-radius: 0 14px 14px 0; }
+    
+    /* BADGES MACIOS */
+    .badge-lobby { background: rgba(224, 169, 109, 0.12); color: var(--brand-rose); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;}
+    .badge-ok { background: rgba(134, 193, 185, 0.12); color: var(--brand-mint); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+    .badge-erro { background: rgba(229, 152, 155, 0.12); color: var(--brand-blush); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header class="animate__animated animate__fadeInDown">
+      <div class="boas-vindas">
+          <h1><i class="fa-solid fa-crown"></i> Painel da Professora Marcela Porto</h1>
+      </div>
+      <div class="botoes-acao">
+          <button class="btn-acao btn-abrir" onclick="abrirLobby()"><i class="fa-solid fa-door-open"></i> Abrir Chamada</button>
+          <button class="btn-acao btn-sortear" onclick="sortearDuplas()"><i class="fa-solid fa-shuffle"></i> Sortear Duplas</button>
+          <div style="width: 1px; background: var(--border-light); margin: 0 5px;"></div>
+          <button class="btn-acao btn-limpar" onclick="limparLobby()" title="Limpar alunos não sorteados"><i class="fa-solid fa-broom"></i></button>
+          <button class="btn-acao btn-encerrar" onclick="fecharChamada()"><i class="fa-solid fa-power-off"></i> Encerrar Aula</button>
+      </div>
+  </header>
+
+  <main>
+      <div class="linha-kpi">
+          <div class="card-kpi animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+              <div class="topo-kpi">
+                  <h4>Controle de Sorteio</h4>
+                  <i class="fa-solid fa-server icone-kpi" style="color: var(--brand-lilac);"></i>
+              </div>
+              <div class="valor" id="statusChamadaDisplay" style="color: var(--brand-lilac); font-size: 24px;">FECHADO</div>
+              <div class="subtexto">Status da Operação</div>
+          </div>
+          <div class="card-kpi animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+              <div class="topo-kpi">
+                  <h4>Presença Definitiva</h4>
+                  <i class="fa-solid fa-user-check icone-kpi" style="color: var(--brand-mint);"></i>
+              </div>
+              <div class="valor" id="kpiPresencas">0</div>
+              <div class="subtexto">Alunos Validados</div>
+          </div>
+          <div class="card-kpi animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+              <div class="topo-kpi">
+                  <h4>Aguardando Dupla</h4>
+                  <i class="fa-solid fa-hourglass-half icone-kpi" style="color: var(--brand-rose);"></i>
+              </div>
+              <div class="valor" id="kpiLobby" style="color: var(--brand-rose);">0</div>
+              <div class="subtexto">Alunos no Lobby</div>
+          </div>
+          <div class="card-kpi animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+              <div class="topo-kpi">
+                  <h4>Clima da Turma</h4>
+                  <i class="fa-solid fa-face-smile icone-kpi" style="color: var(--text-secondary);"></i>
+              </div>
+              <div class="valor" id="kpiHumor" style="font-size: 20px;">Calculando...</div>
+              <div class="subtexto">Humor Dominante</div>
+          </div>
+      </div>
+
+      <div class="layout-central">
+          <div class="painel animate__animated animate__fadeInLeft">
+              <h3>Análise de Frequência Mensal</h3>
+              <div class="grafico-container"><canvas id="graficoArea"></canvas></div>
+          </div>
+          <div class="painel animate__animated animate__fadeInRight">
+              <h3>Distribuição de Humor Hoje</h3>
+              <div class="grafico-container"><canvas id="graficoDonut"></canvas></div>
+          </div>
+      </div>
+
+      <div class="tabela-container animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+          <div class="tabela-header">
+              <h3>Acompanhamento Diário</h3>
+              <button class="btn-excel" onclick="exportarExcel()"><i class="fa-solid fa-file-excel"></i> Exportar Relatório</button>
+          </div>
+          <table>
+              <thead>
+                  <tr>
+                      <th>Aluno</th>
+                      <th>Check-in</th>
+                      <th>Status do Aluno</th>
+                      <th>Estado do Humor</th>
+                      <th>Turma</th>
+                  </tr>
+              </thead>
+              <tbody id="tabelaPresenca">
+                  <tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 30px;">Aguardando os alunos se conectarem...</td></tr>
+              </tbody>
+          </table>
+      </div>
+      
+      </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const supabaseUrl = 'https://yhnfsmloqcjfwsbeidvv.supabase.co';
+    const supabaseKey = 'sb_publishable_vFH_ZuHkvqjZU41gl7gNpw_LgiQHpcC';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    let chartArea, chartDonut;
+
+    async function abrirLobby() {
+        await supabaseClient.from('eventos').update({ pin_atual: "LOBBY" }).eq('id', 1);
+        atualizarStatusUI(" CHAMADA ABERTA", "var(--brand-rose)");
+    }
+
+    async function fecharChamada() {
+        await supabaseClient.from('eventos').update({ pin_atual: "FECHADO" }).eq('id', 1);
+        atualizarStatusUI("ENCERRADA", "var(--brand-blush)");
+    }
+
+    async function limparLobby() {
+        if(confirm("Deseja remover os alunos que ainda estão aguardando dupla no lobby?")) {
+            const hoje = new Date().toISOString().split('T')[0];
+            await supabaseClient.from('chamadas').delete().eq('data_aula', hoje).eq('humor', 'ESPERANDO_DUPLA');
+            atualizarInterface();
+        }
+    }
+
+    async function sortearDuplas() {
+        const hoje = new Date().toISOString().split('T')[0];
+        
+        const { data: alunosNoLobby } = await supabaseClient.from('chamadas')
+            .select('nome').eq('data_aula', hoje).eq('humor', 'ESPERANDO_DUPLA');
+            
+        if (!alunosNoLobby || alunosNoLobby.length < 2) {
+            alert("É necessário pelo menos 2 alunos no Lobby para formar as duplas.");
+            return;
+        }
+
+        let listaNomes = alunosNoLobby.map(a => a.nome);
+        for (let i = listaNomes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [listaNomes[i], listaNomes[j]] = [listaNomes[j], listaNomes[i]];
+        }
+
+        let sorteados = [];
+        
+        while(listaNomes.length >= 2) {
+            let a1 = listaNomes.pop();
+            let a2 = listaNomes.pop();
+            let codigo = Math.floor(1000 + Math.random() * 9000).toString(); 
+            sorteados.push({ integrantes: [a1, a2], codigo: codigo });
+        }
+
+        if(listaNomes.length === 1) {
+            let a3 = listaNomes.pop();
+            if(sorteados.length > 0) {
+                sorteados[sorteados.length - 1].integrantes.push(a3);
+                sorteados[sorteados.length - 1].codigo = Math.floor(100000 + Math.random() * 900000).toString();
+            }
+        }
+
+        await supabaseClient.from('eventos').update({ pin_atual: JSON.stringify(sorteados) }).eq('id', 1);
+        atualizarStatusUI("DUPLAS GERADAS", "var(--brand-lilac)");
+    }
+
+    function atualizarStatusUI(texto, cor) {
+        const display = document.getElementById('statusChamadaDisplay');
+        display.innerText = texto;
+        display.style.color = cor;
+    }
+
+    async function carregarStatusAtual() {
+        const { data } = await supabaseClient.from('eventos').select('pin_atual').eq('id', 1).single();
+        if (data && data.pin_atual) {
+            if (data.pin_atual === "FECHADO") atualizarStatusUI("ENCERRADA", "var(--brand-blush)");
+            else if (data.pin_atual === "LOBBY") atualizarStatusUI("LOBBY ABERTO", "var(--brand-rose)");
+            else if (data.pin_atual.startsWith("[")) atualizarStatusUI("DUPLAS GERADAS", "var(--brand-lilac)");
+            else atualizarStatusUI("ABERTA", "var(--brand-mint)");
+        }
+    }
+
+    async function atualizarInterface() {
+        const hoje = new Date().toISOString().split('T')[0];
+        const mesAtual = hoje.slice(0, 7);
+        const { data: chamadasMes } = await supabaseClient.from('chamadas').select('*').like('data_aula', `${mesAtual}%`);
+        
+        if (chamadasMes) {
+            const chamadasHoje = chamadasMes.filter(r => r.data_aula === hoje);
+            
+            const validados = chamadasHoje.filter(r => r.humor !== "ESPERANDO_DUPLA");
+            const noLobby = chamadasHoje.filter(r => r.humor === "ESPERANDO_DUPLA");
+
+            document.getElementById('kpiPresencas').innerText = validados.length;
+            document.getElementById('kpiLobby').innerText = noLobby.length;
+
+            if(validados.length > 0) {
+                let humores = validados.map(r => r.humor);
+                let humorMaisComum = humores.sort((a,b) => humores.filter(v => v===a).length - humores.filter(v => v===b).length).pop();
+                document.getElementById('kpiHumor').innerText = humorMaisComum.split(' ')[0] + " Dominante";
+                renderizarDonutHumor(humores);
+            }
+
+            const tbody = document.getElementById('tabelaPresenca');
+            tbody.innerHTML = "";
+            
+            if (chamadasHoje.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 30px;">Aguardando os alunos se conectarem...</td></tr>';
+            } else {
+                chamadasHoje.reverse().forEach(reg => {
+                    const tr = document.createElement('tr');
+                    
+                    let statusHtml = "";
+                    if (reg.humor === "ESPERANDO_DUPLA") {
+                        statusHtml = '<span class="badge-lobby"><i class="fa-solid fa-spinner fa-spin" style="margin-right: 4px;"></i> No Lobby</span>';
+                    } else {
+                        statusHtml = reg.atrasado ? '<span class="badge-erro">Atrasado</span>' : '<span class="badge-ok">Validado</span>';
+                    }
+
+                    let humorTexto = reg.humor === "ESPERANDO_DUPLA" ? "Aguardando Sorteio..." : reg.humor;
+
+                    tr.innerHTML = `<td>${reg.nome}</td><td>${reg.horario}</td><td>${statusHtml}</td><td>${humorTexto}</td><td>${reg.turma || '-'}</td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+            renderizarGraficoArea(chamadasMes.filter(r => r.humor !== "ESPERANDO_DUPLA"));
+        }
+    }
+
+    function renderizarGraficoArea(dadosMensais) {
+        let dadosGrafico = {};
+        dadosMensais.forEach(reg => {
+            let dia = reg.data_aula.split('-')[2];
+            dadosGrafico[dia] = (dadosGrafico[dia] || 0) + 1;
+        });
+        const ctx = document.getElementById('graficoArea').getContext('2d');
+        if(chartArea) chartArea.destroy();
+        const gradiente = ctx.createLinearGradient(0, 0, 0, 300);
+        gradiente.addColorStop(0, 'rgba(200, 162, 200, 0.4)'); /* Lilás translúcido */
+        gradiente.addColorStop(1, 'rgba(200, 162, 200, 0.0)');
+        chartArea = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(dadosGrafico).map(d => `Dia ${d}`),
+                datasets: [{ label: 'Presenças', data: Object.values(dadosGrafico), borderColor: '#C8A2C8', backgroundColor: gradiente, fill: true, tension: 0.4, borderWidth: 3 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: {color: '#D4B8C0'} }, x: { grid: { display: false }, ticks: {color: '#D4B8C0'} } } }
+        });
+    }
+
+    function renderizarDonutHumor(humores) {
+        const contagem = {};
+        humores.forEach(h => contagem[h] = (contagem[h] || 0) + 1);
+        const ctx = document.getElementById('graficoDonut').getContext('2d');
+        if(chartDonut) chartDonut.destroy();
+        chartDonut = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(contagem),
+                // Cores pastéis combinando com o painel: Lilás, Ouro Rosa, Menta, Blush
+                datasets: [{ data: Object.values(contagem), backgroundColor: ['#C8A2C8', '#E0A96D', '#86C1B9', '#E5989B', '#A78BFA'], borderWidth: 0 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels: { color: '#D4B8C0', font: { size: 12, family: 'Urbanist' }, padding: 20 } } } }
+        });
+    }
+
+    async function exportarExcel() {
+        const hoje = new Date().toISOString().split('T')[0];
+        const { data } = await supabaseClient.from('chamadas').select('*').eq('data_aula', hoje);
+        if (!data || data.length === 0) return alert("Sem registros para exportar hoje.");
+        
+        const validados = data.filter(d => d.humor !== "ESPERANDO_DUPLA");
+
+        let htmlTable = `<html><head><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"></head><body><table>
+            <tr style="background:#141115; color:#FDFBF7"><th>ALUNO</th><th>DATA</th><th>HORA</th><th>STATUS</th><th>HUMOR</th><th>TURMA</th></tr>`;
+        validados.forEach(l => {
+            htmlTable += `<tr><td>${l.nome}</td><td>${l.data_aula}</td><td>${l.horario}</td><td>${l.atrasado?'ATRASADO':'OK'}</td><td>${l.humor}</td><td>${l.turma}</td></tr>`;
+        });
+        htmlTable += `</table></body></html>`;
+        const blob = new Blob(['\ufeff', htmlTable], { type: 'application/vnd.ms-excel;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Relatorio_Turma_Cebrac_${hoje}.xls`;
+        a.click();
+    }
+
+    setInterval(atualizarInterface, 5000);
+    window.onload = function() { carregarStatusAtual(); atualizarInterface(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+:root {
+    --bg-color: #0d1117;
+    --card-bg: rgba(22, 27, 34, 0.65);
+    --accent-blue: #007aff;
+    --accent-green: #3fb950;
+    --accent-red: #f85149;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none; 
+    overflow-x: hidden;
+    transition: background-color 0.8s ease; 
+}
+
+::-webkit-scrollbar {
+    display: none; 
+}
+
+.container-app {
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.viewport-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px; 
+}
+
+.painel, .modal-conteudo {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+    width: 100%;
+    transition: background 0.8s ease, border 0.8s ease;
+}
+
+#telaRegistro {
+    justify-content: center;
+    padding: 20px;
+}
+
+.header-icone i {
+    font-size: 48px;
+    color: var(--accent-blue);
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(0, 122, 255, 0.4));
+    transition: color 0.8s ease, filter 0.8s ease;
+}
+
+h2, h3 { color: var(--text-main); margin-bottom: 15px; transition: color 0.8s ease; }
+.subtitulo { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 0 16px;
+    margin-bottom: 16px;
+    transition: 0.3s;
+}
+
+.input-group:focus-within { border-color: var(--accent-blue); }
+.input-group i { color: var(--text-muted); font-size: 18px; }
+
+input, select {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 16px 12px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    appearance: none; 
+}
+
+button {
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s, filter 0.2s, background 0.8s ease, box-shadow 0.8s ease;
+}
+
+button:active { transform: scale(0.96); filter: brightness(1.2); } 
+
+.btn-principal, .btn-confirmar {
+    background: var(--accent-blue);
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3);
+}
+
+.btn-secundario, .btn-cancelar {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-cancelar { color: var(--accent-red); }
+
+.app-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0 5px;
+}
+.saudacao span { display: block; font-size: 22px; font-weight: bold; }
+.saudacao small { color: var(--accent-blue); font-weight: bold; text-transform: uppercase; font-size: 12px; transition: color 0.8s ease; }
+
+.dashboard-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.card-mini {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 16px;
+    text-align: center;
+}
+.card-mini i { color: var(--accent-green); font-size: 20px; margin-bottom: 8px; }
+.card-mini h3 { margin: 0; color: white; font-size: 20px; }
+.card-mini span { font-size: 12px; color: var(--text-muted); }
+
+.lista-historico { list-style: none; }
+.lista-historico li {
+    background: rgba(0,0,0,0.2);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.alerta-escondido {
+    position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+    background: #1f2428; border: 1px solid rgba(255,255,255,0.1);
+    padding: 14px 24px; border-radius: 50px;
+    z-index: 10000; display: flex; align-items: center; gap: 12px;
+    transition: top 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-weight: 500; font-size: 14px;
+}
+.alerta-escondido.mostrar { top: 40px; }
+
+.modal-nativo {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+    z-index: 9000; display: flex; justify-content: center; align-items: center; padding: 20px;
+}
+.modal-header { display: flex; gap: 10px; color: var(--accent-blue); font-weight: bold; margin-bottom: 15px; font-size: 18px; transition: color 0.8s ease;}
+.modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+.column-actions { flex-direction: column; }
+
+.game-card { text-align: center; }
+.game-badge { background: rgba(0, 122, 255, 0.1); color: var(--accent-blue); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 15px; transition: background 0.8s ease, color 0.8s ease;}
+.game-valores h2 { font-size: 42px; color: gold; margin: 5px 0 20px 0; }
+.patch-box { background: rgba(0,0,0,0.3); padding: 16px; border-radius: 12px; font-size: 14px; color: var(--text-muted); text-align: left; margin: 15px 0; }
+.dev-panel { border: 1px solid var(--accent-green); background: rgba(0,255,0,0.05); }
+.dev-badge { color: var(--accent-green); font-family: monospace; margin-bottom: 15px; }
+.btn-dev { background: var(--accent-green); color: black; }
+
+#splashScreen {
+    position: fixed; inset: 0; background: var(--bg-color); z-index: 9999;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.5s ease;
+}
+.logo-pulse i { font-size: 64px; color: var(--accent-blue); margin-bottom: 20px; animation: pulse 2s infinite; transition: color 0.8s ease;}
+#splashScreen h1 { font-size: 20px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-main); }
+.loader-bar { width: 120px; height: 3px; background: rgba(255,255,255,0.1); margin-top: 30px; border-radius: 10px; overflow: hidden; position: relative; }
+.loader-bar::after { content: ''; position: absolute; left: -100%; width: 100%; height: 100%; background: var(--accent-blue); animation: load 1.5s infinite ease-in-out; }
+
+@keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
+@keyframes load { 100% { left: 100%; } }
+
+.card-ranking { margin-bottom: 25px; text-align: center; padding: 16px; }
+.card-ranking h3 { margin-bottom: 5px; font-size: 16px; }
+.card-ranking p { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+
+.progress-bar-container { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: var(--accent-blue); transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.8s ease, box-shadow 0.8s ease; border-radius: 10px; }
+
+body.tema-ouro {
+    --bg-color: #0a0a0a;
+    --card-bg: rgba(26, 20, 0, 0.85);
+    --accent-blue: #d4af37; 
+    --text-main: #fcf6ba;
+}
+
+body.tema-ouro .btn-principal {
+    background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
+    color: #000;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    text-shadow: none;
+}
+
+body.tema-ouro .header-icone i, 
+body.tema-ouro .logo-pulse i, 
+body.tema-ouro .nav-item.ativo i,
+body.tema-ouro .nav-item.ativo span {
+    color: #d4af37;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+}
+
+body.tema-ouro .progress-fill {
+    background: linear-gradient(90deg, #bf953f, #fcf6ba);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+}
